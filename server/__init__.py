@@ -29,7 +29,6 @@ def add_new_event():
         try:
             with MONGO.cx.start_session() as session:
                 event = {
-                    "_id": get_next_id("event", session=session),
                     "title": request.form.get("title"),
                     "author": request.form.get("author"),
                     "photo": request.form.get("photo"),
@@ -63,7 +62,8 @@ def add_new_event():
 
 @run_transaction_with_retry
 def txn_add_event(session, event, price, color):
-    event["_id"] = MONGO.db.event.insert_one(event, session=session).inserted_id        
+    event["_id"] = get_next_id("event", session=session)
+    MONGO.db.event.insert_one(event, session=session)    
     add_tickets(event["_id"], price, color, session=session)
     commit_with_retry(session)
     return True

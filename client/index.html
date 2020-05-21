@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.css.map">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.8.2/css/bulma.min.css">
+    <title>Добавить мероприятие</title>
+</head>
+
+<body>
+    <section class="section">
+        <div class="container">
+
+            <!-- <div class="tabs is-centered">
+                <ul>
+                    <li><a href="/events_list">Список мероприятий</a></li>
+                    <li><a href="/booking">Забронировать</a></li>
+                    <li><a href="/event">Мероприятие</a></li>
+                    <li><a href="/bookings_list">Список броней</a></li>
+                    <li><a href="/cancel_booking_post">Отменить бронь</a></li>
+                </ul>
+            </div> -->
+
+            <h1 class="title is-1 has-text-centered">Добавить мероприятие</h1>
+
+            <article class="message is-warning">
+                <div class="message-header">
+                    <p>Добавлять можно только хорошие данные!</p>
+                </div>
+                <div class="message-body">
+                    При добавлении <strong>некорректных данных</strong>, например,
+                    при неправильном формате времени, <strong>возможны ошибки</strong>
+                </div>
+            </article>
+
+            <article class="message is-info">
+                <div class="message-header">
+                    <p>Пример ISO-формата времени</p>
+                </div>
+                <div class="message-body">
+                    <strong>2020-05-01 15:00:00</strong>
+                </div>
+            </article>
+
+
+            <form method="POST" class="post-form">
+                <div class="field">
+                    <label class="label">title</label>
+                    <div class="control">
+                        <input class="input" type="text" name="title" required>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">author</label>
+                    <div class="control">
+                        <input class="input" type="text" name="author" required>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">photo</label>
+                    <div class="control">
+                        <input class="input" type="text" name="photo" required>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">start_time</label>
+                    <div class="control">
+                        <input class="input" placeholder="ISO формат" type="text" name="start_time" required>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">end_time</label>
+                    <div class="control">
+                        <input class="input" placeholder="ISO формат" type="text" name="end_time" required>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">description</label>
+                    <div class="control">
+                        <textarea class="textarea" type="text" name="description" required></textarea>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">director</label>
+                    <div class="control">
+                        <input class="input" type="text" name="director" required>
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">actors</label>
+                    <div class="control">
+                        <textarea class="textarea" type="text" name="actors"></textarea>
+                    </div>
+                </div>
+
+                <h5 class="subtitle is-5">
+                    Цену и цвет необязательно заполнять и добавлять. 
+                    Можно использовать цвета по умолчанию
+                </h5>
+
+                <div class="columns">
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">price_1-3</label>
+                            <div class="control">
+                                <input class="input" placeholder="800" type="text" name="price_1-3">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">color_1-3</label>
+                            <div class="control">
+                                <input class="input" placeholder="#9497ff" type="text" name="color_1-3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="columns">
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">price_4-5</label>
+                            <div class="control">
+                                <input class="input" placeholder="1000" type="text" name="price_4-5">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">color_4-5</label>
+                            <div class="control">
+                                <input class="input" placeholder="#86fcbd" type="text" name="color_4-5">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="columns">
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">price_6-8</label>
+                            <div class="control">
+                                <input class="input" placeholder="1500" type="text" name="price_6-8">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">color_6-8</label>
+                            <div class="control">
+                                <input class="input" placeholder="#f0fc62" type="text" name="color_6-8">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="columns">
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">price_9-10</label>
+                            <div class="control">
+                                <input class="input" placeholder="1200" type="text" name="price_9-10">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">color_9-10</label>
+                            <div class="control">
+                                <input class="input" placeholder="#ffcf70" type="text" name="color_9-10">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="columns">
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">price_11-13</label>
+                            <div class="control">
+                                <input class="input" placeholder="900" type="text" name="price_11-13">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <div class="field">
+                            <label class="label">color_11-13</label>
+                            <div class="control">
+                                <input class="input" placeholder="#ffa570" type="text" name="color_11-13">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="button is-success" type="submit">Сохранить</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                Исключительно для проекта tensor-2020
+            </p>
+        </div>
+    </footer>
+</body>
+
+</html>

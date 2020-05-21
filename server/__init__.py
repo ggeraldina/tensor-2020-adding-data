@@ -1,16 +1,21 @@
 """ Билетная касса театра """
 import os
 from datetime import datetime
-from bson import ObjectId
 
+from bson import ObjectId
 from flask import Flask, jsonify, request, send_from_directory
 from flask_pymongo import PyMongo
+
+from .transaction import commit_with_retry, run_transaction_with_retry
+from .error_data_db import ErrorDataDB
 
 APP = Flask(__name__, static_folder="../client")
 APP.config["JSON_AS_ASCII"] = False
 APP.config["MONGO_URI"] = os.environ["MONGO_URI"]
 MONGO = PyMongo(APP)
 
+from .database import create_collections
+create_collections()
 
 @APP.route("/", methods=["GET", "POST"])
 @APP.route("/index", methods=["GET", "POST"])
@@ -32,7 +37,6 @@ def add_new_event():
             "director": request.form.get("director"),
             "actors": request.form.get("actors")
         }
-        event["_id"] = MONGO.db.event.insert_one(event).inserted_id
         price = {
             "1-3": float(request.form.get("price_1-3")) if request.form.get("price_1-3") != "" else 800,
             "4-5": float(request.form.get("price_4-5")) if request.form.get("price_4-5") != "" else 1000,
@@ -47,10 +51,23 @@ def add_new_event():
             "9-10": request.form.get("color_9-10") if request.form.get("color_9-10") != "" else "#ffcf70",
             "11-13": request.form.get("color_11-13") if request.form.get("color_11-13") != "" else "#ffa570"
         }
-        add_tickets(event["_id"], price, color)
+
+        try:
+            with MONGO.cx.start_session() as session:
+                txn_add_event(session, event, price, color)
+        except ErrorDataDB as error_db:
+            return jsonify({"message": error_db.message, "is_success": False})
+
         return jsonify("Save!")
 
     return send_from_directory(APP.static_folder, "index.html")
+
+@run_transaction_with_retry
+def txn_add_event(session, event, price, color):
+    event["_id"] = MONGO.db.event.insert_one(event).inserted_id        
+    add_tickets(event["_id"], price, color)
+    commit_with_retry(session)
+    return True
 
 
 def get_next_id(collection_name, session=None):
@@ -123,4 +140,3 @@ def add_tickets(id_event, price, color):
 # def cancel_booking_post():
 #     """ Mock cancel booking list GET """
 #     return send_from_directory(APP.static_folder, 'mock_pages/canceling_booking_post_request.html')
-

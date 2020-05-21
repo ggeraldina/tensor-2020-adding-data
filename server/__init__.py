@@ -12,7 +12,8 @@ APP.config["MONGO_URI"] = os.environ["MONGO_URI"]
 MONGO = PyMongo(APP)
 
 
-@APP.route("/new_event", methods=["GET", "POST"])
+@APP.route("/", methods=["GET", "POST"])
+@APP.route("/index", methods=["GET", "POST"])
 def add_new_event():
     """ Добавление мероприятия.
 

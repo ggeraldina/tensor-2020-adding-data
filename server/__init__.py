@@ -18,6 +18,10 @@ MONGO = PyMongo(APP)
 from .database import create_collections
 create_collections()
 
+@APP.route("/dev", methods=["GET"])
+def api():
+    return send_from_directory(APP.static_folder, "api.html")
+
 @APP.route("/", methods=["GET", "POST"])
 @APP.route("/index", methods=["GET", "POST"])
 def add_new_event():
